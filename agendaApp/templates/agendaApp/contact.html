@@ -1,0 +1,43 @@
+{% extends 'register/base.html' %}
+
+{% block title %}
+Contacts
+{% endblock %}
+
+{% block content %}
+
+<h1 class="mt-2">Contacts</h1>
+<hr class="mt-0 mb-4">
+
+{% if friend_requests != 0 %}
+
+    You have some pending requests
+
+{% endif %}
+
+<p>Click here to send a friend request : <a href="{% url 'send_friend_request' %}">Send Friend Request</a></p>
+
+<p>View friend requests here : <a href="{% url 'friend_requests' %}">Friend Requests</a></p>
+
+<p>View event requests here : <a href="{% url 'event_requests' %}">Event Requests</a></p>
+
+<h1>Friends</h1>
+
+{% for friend in friends_list %}
+
+    
+    <div style="display: flex; align-items: center;">
+        <p>{{ friend }}</p>
+        <div style="display: flex; align-items: center; padding-right: 100 px;">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="friend" value="{{ friend.id }}">
+                <button name="remove_btn" type="submit">Remove</button>
+            </form>
+        </div>
+    </div>
+
+{% endfor %}
+
+
+{% endblock %}

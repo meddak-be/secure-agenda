@@ -1,0 +1,28 @@
+{% extends "register/base.html" %}
+
+{% block title %} Create an account {% endblock %}
+{% load crispy_forms_tags %}
+
+
+{% block content %} 
+{% if user.is_authenticated %}
+<h1>You should first logout from your account</h1>
+{% else %}
+    <h1 class="mt-2">Register</h1>
+    <hr class="mt-0 mb-4">
+    <form method="POST" onsubmit="return submitForm(event)" class="form-group">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Register</button>
+    </form>
+{% endif %}
+
+{% load static %}
+
+<script src="{% static 'register.js' %}"></script>
+<script src="{% static 'encrypt_utils.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.1.0/jsencrypt.min.js"></script>
+
+{% endblock %}
+

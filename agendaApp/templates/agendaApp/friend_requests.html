@@ -1,0 +1,26 @@
+{% extends 'register/base.html' %}
+
+{% block title %}
+Pending Friend Requests
+{% endblock %}
+
+{% block content %}
+
+<h1 class="mt-2">Pending requests</h1>
+<hr class="mt-0 mb-4">
+
+{% for request in friend_requests %}
+  <p>{{ request.sender }} has sent you a friend request.</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="request" value="{{ request.id }}">
+    <button name="accept_btn" type="submit" class="btn btn-success">Accept</button>
+    <button name="decline_btn" type="submit" class="btn btn-danger">Decline</button>
+  </form>
+{% endfor %}
+
+{% if friend_requests == 0 %}
+  <p>You don't have any pending requests</p>
+{% endif %}
+
+{% endblock %}

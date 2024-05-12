@@ -1,0 +1,27 @@
+{% extends "register/base.html" %}
+
+{% block title %}Verification{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+<meta http-equiv="refresh" content="url=/calendar/">
+{% else %}
+<meta http-equiv="refresh" content="5; url=/access_request/">
+<h1 class="mt-2">Request pending</h1>
+<hr class="mt-0 mb-4">
+
+<label>Your request is pending, please wait ...</label> <br>    
+<label id="infos" data-access="{{ access }}" data-username="{{ username }}"data-public="{{ public_key }}" data-private="{{ private_key }}" data-salt="{{ salt_user }}">You will be redirected to the login page once the access will be granted</label> <br>    
+
+
+{% endif %}
+
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.1.0/jsencrypt.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+<script src="{% static 'encrypt_utils.js' %}"></script>
+<script src="{% static 'request_pending.js' %}"></script>
+
+
+{% endblock %}

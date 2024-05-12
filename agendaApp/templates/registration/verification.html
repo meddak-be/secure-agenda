@@ -1,0 +1,24 @@
+{% extends "register/base.html" %}
+
+{% block title %}Verification{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+<meta http-equiv="refresh" content="2; url=/calendar/">
+<p>Verification is successfull, you will be redirected to your Agenda</p>
+{% else %}
+<h1 class="mt-2">Login</h1>
+<hr class="mt-0 mb-4">
+<label id="otp" data-value="{{ otp }}" data-username="{{ username }}">Your account is being verified. Please wait ...</label>
+
+{% endif %}
+
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.1.0/jsencrypt.min.js"></script>
+<script src="{% static 'encrypt_utils.js' %}"></script>
+<script src="{% static 'verification.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+
+{% endblock %}

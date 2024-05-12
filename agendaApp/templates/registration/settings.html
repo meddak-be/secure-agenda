@@ -1,0 +1,37 @@
+{% extends "register/base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+<h1 class="mt-2">Settings</h1>
+<hr class="mt-0 mb-4">
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-warning alert-dismissable" role="alert">
+            <p>{{message}}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+<form method="POST" onsubmit="return submitForm(event)" class="form-group">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-success">Change password</button>
+</form>
+
+{% else %}
+<meta http-equiv="refresh" content="2; url=/login/">
+<p>You do not have access to this ressource</p>
+{% endif %}
+
+
+
+{% load static %}
+
+<script src="{% static 'settings.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+{% endblock %}

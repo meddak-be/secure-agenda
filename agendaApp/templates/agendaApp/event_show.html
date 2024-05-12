@@ -1,0 +1,25 @@
+{% extends 'agendaApp/base.html' %}
+
+{% block title %}
+Event
+{% endblock %}
+
+{% block content %}
+<input type="hidden" id="user_label" value="{{ user }}" />
+<input type="hidden" id="encrypted_sym_key" value="{{ sym_key }}">
+<h1>You have been invited to this event</h1>
+<h2>Details of the event</h2>
+<a> Creator of the event : </a><a id="creator">{{ event.user }}</a><br><br>
+<a> Title of the event : </a><a id="title">{{ event.title }}</a><br><br>
+<a> Description of the event : </a><a id="description">{{ event.description }}</a><br><br>
+<a> Location of the event : </a><a id="location">{{ event.location }}</a><br><br>
+<a> Start of the event : </a><a id="start_time">{{ event.start_time }}</a><br><br>
+<a> End of the event : </a><a id="end_time">{{ event.end_time }}</a><br><br>
+
+{% load static %}
+<script src="{% static 'encrypt_utils.js' %}"></script>
+<script src="{% static 'invited_event_uncipher.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.1.0/jsencrypt.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+{% endblock %}

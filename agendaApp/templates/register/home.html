@@ -1,0 +1,20 @@
+{% extends 'register/base.html' %}
+
+{% block title %} 
+HOME
+{% endblock %}
+
+
+
+    {% block content %}
+    {% if user.is_authenticated %}
+    <h1>
+        This is a simple test
+    </h1>
+    {% else %}
+    <p>Login <a href="/login">here</a></p>
+
+    {% endif %}
+    {% endblock %}
+
+

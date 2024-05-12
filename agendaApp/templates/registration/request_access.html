@@ -1,0 +1,29 @@
+{% extends "register/base.html" %}
+
+{% block title %}Verification{% endblock %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+<meta http-equiv="refresh" content="url=/calendar/">
+{% else %}
+<h1 class="mt-2">Request access</h1>
+<hr class="mt-0 mb-4">
+
+<form method="post" id="my-form" onsubmit="submitForm(event)">
+    {% csrf_token %}
+    <label id="user" data-username="{{ username }}" data-publickey="{{ public_key }}">Do you want to request the access to {{ username }} ?</label> <br>
+    <label>Please check another device that has already access to this account.</label> <br>    
+    <button method="post" id="request_access" class="btn btn-success" type="submit">Request Access</button>
+</form>
+
+{% endif %}
+
+{% load static %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.1.0/jsencrypt.min.js"></script>
+<script src="{% static 'encrypt_utils.js' %}"></script>
+<script src="{% static 'request_access.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+
+{% endblock %}

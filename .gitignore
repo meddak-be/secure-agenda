@@ -1,0 +1,7 @@
+./agenda/_pycache_/
+agendaApp/_pycache_/
+.django_env/
+agenda/__pycache__/
+agendaApp/__pycache__/
+db.sqlite3
+agendaApp/migrations/__pycache__/

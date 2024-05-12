@@ -1,0 +1,57 @@
+{% extends 'agendaApp/base.html' %}
+
+{% block title %}
+Event
+{% endblock %}
+
+{% block content %}
+<input type="hidden" id="user_label" value="{{ user }}" />
+<input type="hidden" id="sym_key" value="{{ sym_key }}" />
+<div class="clearfix">
+  <a class="btn btn-info left" href="{% url 'calendar' %}"> Calendar </a>
+</div>
+{% for friend in friends %}
+    <form action="{% url 'invite_event' %}" method="post"  onsubmit="return encryptSymkey(event)">
+        {% csrf_token %}
+        <input type="hidden" name="friend_id" value="{{ friend.id }}">
+        <input type="hidden" name="event_id" value="{{ event_id }}">
+        <input type="hidden" name="public_key" value="{{ friend.pub_key }}">
+        <div style="display: flex; align-items: center;">
+          <p>{{ friend }}</p><button type="submit" class="btn btn-primary">+</button>
+        </div>
+    </form>
+{% endfor %}
+{% for friend in friends_inv %}
+    <div style="display: flex; align-items: center;">
+      <p>Status of {{ friend.recipient }} : {{ friend.status }} </p>
+    </div>
+{% endfor %}
+
+
+<form method="post" onsubmit="return submitForm(event)">
+  {% csrf_token %}
+  <table class="form form-table">
+    {{ form }}
+    <tr><td colspan="2">
+      <button type="submit" class="btn btn-info right"> Submit </button></td></tr>
+  </table>
+</form>
+
+
+{% if event_id != None %}
+<form action="{% url 'delete_event' %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="event_id" value="{{ event_id }}">
+  <button type="submit" class="btn btn-primary">Delete Event</button>
+</form>
+{% endif %}
+
+
+{% load static %}
+<script src="{% static 'encrypt_utils.js' %}"></script>
+<script src="{% static 'event_cipher.js' %}"></script>
+<script src="{% static 'symkey_cipher.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.1.0/jsencrypt.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+{% endblock %}

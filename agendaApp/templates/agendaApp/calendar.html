@@ -1,0 +1,67 @@
+{% extends 'agendaApp/base.html' %}
+{% block title %}
+
+Calendar
+{% endblock %}
+
+{% block content %}
+
+<style>
+	table {
+	  font-family: arial, sans-serif;
+	  border-collapse: collapse;
+	  width: 100%;
+	}
+  
+	td, th {
+	  border: 1px solid #dddddd;
+	  text-align: center;
+	  padding: 8px;
+	}
+  
+	tr:nth-child(even) {
+	  background-color: #dddddd;
+	}
+  </style>
+
+{% if user.is_authenticated %}
+<label type="hidden" id="user_label" style="display: none;">{{ request.user.username }}</label>
+<div class="clearfix">
+	<a class="btn btn-info right" href="{% url 'event_new' %}"> New Event </a>
+	
+
+	</table>
+	<table>
+		<tr>
+			<th>Your Events</th>
+		</tr>
+		{% for event in events %}
+		<tr>
+			<th><a href="{% url 'event_edit' event.pk %}" data-key="{{ event.symKey }}" data-pubkey="{{ event.creatorPubKey }}" data-desc="{{ event.description }}" data-sign="{{ event.signature }}" data-loc="{{ event.location }}" data-start="{{ event.start_time }}" data-end="{{ event.end_time }}" class="event_title">{{ event.title }}</a></th>
+		</tr>
+		{% endfor %}
+		<tr>
+			<th>Invited Events</th>
+		</tr>
+		{% for event in invited_events %}
+		<tr>
+			<th><a href="{% url 'event_edit' event.pk %}" data-key="{{ event.symKey }}" data-pubkey="{{ event.creatorPubKey }}" data-desc="{{ event.description }}" data-sign="{{ event.signature }}"  data-loc="{{ event.location }}" data-start="{{ event.start_time }}" data-end="{{ event.end_time }}" class="event_title">{{ event.title }}</a></th>
+		</tr>
+		{% endfor %}
+	</table>
+	
+</div>
+{{ calendar }}
+
+{% else %}
+<p> You do not have access to this ressource, please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% load static %}
+<script src="{% static 'calendar_uncipher.js' %}" ></script>
+<script src="{% static 'encrypt_utils.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.1.0/jsencrypt.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+
+
+{% endblock %}

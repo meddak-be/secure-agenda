@@ -1,0 +1,33 @@
+{% extends 'register/base.html' %}
+
+{% block title %}
+Pending Access Requests
+{% endblock %}
+
+{% block content %}
+
+<h1 class="mt-2">Pending devices</h1>
+<hr class="mt-0 mb-4">
+
+{% for request in access_requests %}
+  <p>{{ request.ip_address }} {{ request.browser }} want to have access to your account.</p> <br>
+  <p></p>
+  <form method="post" onsubmit="return submitForm(event)">
+    {% csrf_token %}
+    <input id="user" type="hidden" data-value="{{ username }}" data-publickey="{{ request.public_key }}" name="request" value="{{ request.ip_address }}">
+    <button id="button_accept" name="accept_btn" type="submit" class="btn btn-success">Accept</button>
+    <button id="button_decline" name="decline_btn" type="submit" class="btn btn-danger">Decline</button>
+  </form>
+{% endfor %}
+
+{% if access_requests_size == 0 %}
+  <p>You don't have any pending requests</p>
+{% endif %}
+
+{% load static %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.1.0/jsencrypt.min.js"></script>
+<script src="{% static 'encrypt_utils.js' %}"></script>
+<script src="{% static 'access.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+{% endblock %}
